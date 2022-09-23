@@ -23,4 +23,4 @@ def process_user_query(user_query):
 
 
 if __name__ == '__main__':
-    app.run(debug=False)
+    app.run(debug=True)

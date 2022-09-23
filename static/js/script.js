@@ -5,7 +5,7 @@ var $messages = $('.messages-content'),
 $(window).load(function() {
   $messages.mCustomScrollbar();
   setTimeout(function() {
-    fakeMessage();
+    sendMessage('您好, 我是医疗机器人提莫. 有什么可以帮到您吗?');
   }, 100);
 });
 
@@ -47,6 +47,13 @@ function insertMessage() {
     request.onload = () => {
       const flaskMsg = request.responseText
       console.log(flaskMsg)
+
+      // 发送系统回复
+      {
+        setTimeout(function() {
+        sendMessage(flaskMsg);
+        }, 1000 + (Math.random() * 20) * 100);
+      }
     }
 
     request.send()
@@ -58,12 +65,7 @@ function insertMessage() {
   $('.message-input').val(null);
   updateScrollbar();
 
-  // 发送系统回复
-  {
-    setTimeout(function() {
-    fakeMessage();
-    }, 1000 + (Math.random() * 20) * 100);
-  }
+
 
 
 }
@@ -79,25 +81,8 @@ $(window).on('keydown', function(e) {
   }
 })
 
-var Fake = [
-  'Hi there, I\'m Fabio and you?',
-  'Nice to meet you',
-  'How are you?',
-  'Not too bad, thanks',
-  'What do you do?',
-  'That\'s awesome',
-  'Codepen is a nice place to stay',
-  'I think you\'re a nice person',
-  'Why do you think that?',
-  'Can you explain?',
-  'Anyway I\'ve gotta go now',
-  'It was a pleasure chat with you',
-  'Time to make a new codepen',
-  'Bye',
-  ':)'
-]
 
-function fakeMessage() {
+function sendMessage(msg) {
   if ($('.message-input').val() != '') {
     return false;
   }
@@ -106,10 +91,9 @@ function fakeMessage() {
 
   setTimeout(function() {
     $('.message.loading').remove();
-    $('<div class="message new"><figure class="avatar"><img src="static/images/teemo.png" /></figure>' + Fake[i] + '</div>').appendTo($('.mCSB_container')).addClass('new');
+    $('<div class="message new"><figure class="avatar"><img src="static/images/teemo.png" /></figure>' + msg + '</div>').appendTo($('.mCSB_container')).addClass('new');
     setDate();
     updateScrollbar();
-    i++;
   }, 1000 + (Math.random() * 20) * 100);
 
 }
