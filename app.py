@@ -8,7 +8,7 @@ app = Flask(__name__)
 
 
 
-@app.route('/')
+@app.route('/kbqa_diagnosis')
 def hello_world():  # put application's code here
     return render_template('index.html')
 
