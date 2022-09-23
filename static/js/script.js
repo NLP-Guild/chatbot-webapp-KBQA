@@ -25,17 +25,47 @@ function setDate(){
 }
 
 function insertMessage() {
-  msg = $('.message-input').val();
-  if ($.trim(msg) == '') {
-    return false;
+  // 读取user msg
+  {
+    msg = $('.message-input').val();
+    // console.log(msg)
+    if ($.trim(msg) == '') {
+      return false;
+    }
   }
+
+
+
+  // 将User msg 发送给服务器
+  {
+    let user_query = {
+    'content': msg
+    }
+    const request = new XMLHttpRequest()
+    request.open('POST', `processUserQuery/${JSON.stringify(user_query)}`)
+    // 接受服务器的response
+    request.onload = () => {
+      const flaskMsg = request.responseText
+      console.log(flaskMsg)
+    }
+
+    request.send()
+  }
+
+
   $('<div class="message message-personal">' + msg + '</div>').appendTo($('.mCSB_container')).addClass('new');
   setDate();
   $('.message-input').val(null);
   updateScrollbar();
-  setTimeout(function() {
+
+  // 发送系统回复
+  {
+    setTimeout(function() {
     fakeMessage();
-  }, 1000 + (Math.random() * 20) * 100);
+    }, 1000 + (Math.random() * 20) * 100);
+  }
+
+
 }
 
 $('.message-submit').click(function() {
@@ -71,12 +101,12 @@ function fakeMessage() {
   if ($('.message-input').val() != '') {
     return false;
   }
-  $('<div class="message loading new"><figure class="avatar"><img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/156381/profile/profile-80.jpg" /></figure><span></span></div>').appendTo($('.mCSB_container'));
+  $('<div class="message loading new"><figure class="avatar"><img src="static/images/teemo.png" /></figure><span></span></div>').appendTo($('.mCSB_container'));
   updateScrollbar();
 
   setTimeout(function() {
     $('.message.loading').remove();
-    $('<div class="message new"><figure class="avatar"><img src="https://s3-us-west-2.amazonaws.com/s.cdpn.io/156381/profile/profile-80.jpg" /></figure>' + Fake[i] + '</div>').appendTo($('.mCSB_container')).addClass('new');
+    $('<div class="message new"><figure class="avatar"><img src="static/images/teemo.png" /></figure>' + Fake[i] + '</div>').appendTo($('.mCSB_container')).addClass('new');
     setDate();
     updateScrollbar();
     i++;
