@@ -23,4 +23,4 @@ def process_user_query(user_query):
 
 
 if __name__ == '__main__':
-    app.run(debug=False,host='0.0.0.0',port=8080)
+    app.run(debug=False,host='120.77.235.141',port=8080)
